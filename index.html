@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriScan - FYP Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Mono&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #064e3b 100%);
+            color: white;
+            overflow: hidden;
+            margin: 0;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* --- BACKGROUND ANIMATIONS (AUTO-PLAYING) --- */
+        
+        /* 1. Global AI Earth Node */
+        .ai-globe {
+            position: fixed;
+            bottom: -150px;
+            right: -150px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(52, 211, 153, 0.05) 0%, transparent 60%);
+            border: 2px dashed rgba(52, 211, 153, 0.15);
+            border-radius: 50%;
+            z-index: 0;
+            animation: rotateGlobe 40s linear infinite;
+            pointer-events: none;
+        }
+        .ai-globe::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 500px; height: 500px;
+            border: 1px solid rgba(52, 211, 153, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseGlobe 5s ease-in-out infinite;
+        }
+        .ai-globe::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 300px; height: 300px;
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes rotateGlobe { 
+            from { transform: rotate(0deg); } 
+            to { transform: rotate(360deg); } 
+        }
+        @keyframes pulseGlobe { 
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; } 
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; box-shadow: 0 0 50px rgba(52,211,153,0.2); } 
+        }
+
+        /* 2. Auto-Typing AI Terminal */
+        .ai-terminal {
+            position: fixed;
+            top: 60px;
+            left: 40px;
+            width: 350px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: rgba(52, 211, 153, 0.5);
+            z-index: 0;
+            pointer-events: none;
+            text-shadow: 0 0 8px rgba(52, 211, 153, 0.3);
+            line-height: 1.8;
+        }
+
+        /* 3. Cyber Grid Overlay */
+        .ai-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            pointer-events: none;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+
+        /* --- PRESENTATION STYLES --- */
+        #presentation-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .slide {
+            display: none;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: calc(100vh - 80px);
+            padding: 3rem 5rem;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #34d399, #ecfdf5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { color: #34d399; font-weight: 600; }
+        .progress-bar { width: 0; transition: width 1.5s ease-out; }
+    </style>
+</head>
+<body>
+
+    <div class="ai-grid"></div>
+    <div class="ai-globe"></div>
+    <div class="ai-terminal" id="bg-terminal"></div>
+
+    <img src="https://i.ibb.co/N6B16HJk/UNI-LOGO.jpg" alt="UNI LOGO" class="fixed top-6 right-8 h-10 w- z-50 rounded-full border border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.4)] opacity-90 pointer-events-none object-cover">
+
+    <div id="presentation-container">
+
+        <div class="slide active justify-center items-center text-center">
+            <div class="glass-card p-12 w-full max-w-5xl relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-64 h-64 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+                
+                <div class="flex justify-center mb-6">
+                    <img src="https://i.ibb.co/N6B16HJk/UNI-LOGO.jpg" alt="USMS Logo" class="h-20 w-20 rounded-full border-2 border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.6)] object-cover">
+                </div>
+                
+                <h3 class="text-xl text-emerald-200 tracking-widest uppercase mb-2">University of Sufism and Modern Sciences, Bhitshah</h3>
+                <p class="text-sm text-slate-400 mb-8">Department of Information and Computing</p>
+                <h1 class="text-6xl font-extrabold gradient-text mb-6">NutriScan</h1>
+                <h2 class="text-2xl font-light mb-12">An AI-Driven Nutrition Analysis and Tracking System</h2>
+                
+                <div class="grid grid-cols-2 gap-8 text-left mt-8 border-t border-white/10 pt-8">
+                    <div>
+                        <h4 class="text-emerald-400 font-bold mb-2"><i class="fas fa-user-tie mr-2"></i>Supervisor</h4>
+                        <p class="text-lg">Maam Zojan Memon</p>
+                    </div>
+                    <div>
+                        <h4 class="text-emerald-400 font-bold mb-2"><i class="fas fa-users mr-2"></i>Group Members</h4>
+                        <ul class="space-y-1">
+                            <li><span class="font-semibold text-white">Muhammad Mustafeed</span> (2k22 BS-IT-35) - Leader</li>
+                            <li><span class="text-slate-300">Ghulam Muhammad Bhatti</span> (2k22 BS-IT-09)</li>
+                            <li><span class="text-slate-300">Hasnain Lakho</span> (BS-IT-57)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4"><i class="fas fa-list-ul mr-3"></i>Presentation Outline</h2>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-play text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">1. Introduction</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-lightbulb text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">2. Background & Motivation</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-exclamation-triangle text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">3. Problem Statement</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-book-open text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">4. Literature Review</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-bullseye text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">5. Aim & Objectives</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-cogs text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">6. Methodology</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-globe text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">7. Scope / Application</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-chart-line text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">8. Expected Outcome</h3></div>
+                <div class="glass-card p-6 hover:bg-white/10 transition"><i class="fas fa-calendar-alt text-emerald-400 text-2xl mb-4"></i><h3 class="text-xl font-bold">9. Timeline & References</h3></div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Introduction (Concept & Vision)</h2>
+            <div class="flex gap-8 items-center h-full">
+                <div class="flex-1 space-y-6 text-xl text-slate-200">
+                    <p class="glass-card p-6 border-l-4 border-l-emerald-400"><strong class="text-white">Overview:</strong> NutriScan addresses the growing global concern regarding dietary health and obesity.</p>
+                    <p class="glass-card p-6 border-l-4 border-l-emerald-400"><strong class="text-white">Core Technology:</strong> It leverages advanced Artificial Intelligence (AI) and Machine Learning (ML) to provide instantaneous nutritional analysis.</p>
+                    <p class="glass-card p-6 border-l-4 border-l-emerald-400"><strong class="text-white">User Experience:</strong> Simplifies calorie tracking and macronutrient monitoring, making it accessible for individuals with varying levels of technical expertise.</p>
+                </div>
+                <div class="w-1/3 glass-card p-8 flex flex-col items-center justify-center relative">
+                    <i class="fas fa-mobile-alt text-8xl text-emerald-200 mb-4"></i>
+                    <div class="absolute w-full h-1 bg-emerald-400 shadow-[0_0_15px_#34d399] animate-[ping_2s_ease-in-out_infinite]"></div>
+                    <p class="font-mono text-emerald-400 mt-4 text-center">AI Image Recognition Active</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">The AI Engine vs. Raw Chatbots</h2>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="glass-card p-8 bg-red-900/20 border-red-500/30">
+                    <h3 class="text-2xl font-bold text-red-400 mb-4"><i class="fas fa-times-circle mr-2"></i>Raw AI Chatbots</h3>
+                    <ul class="space-y-4 text-lg">
+                        <li><i class="fas fa-angle-right text-red-500 mr-2"></i>Provide text-heavy, difficult to read responses.</li>
+                        <li><i class="fas fa-angle-right text-red-500 mr-2"></i><strong>No Persistence:</strong> Data disappears after the chat ends.</li>
+                        <li><i class="fas fa-angle-right text-red-500 mr-2"></i>Lacks daily goal tracking or visual progress rings.</li>
+                    </ul>
+                </div>
+                <div class="glass-card p-8 bg-emerald-900/20 border-emerald-500/30">
+                    <h3 class="text-2xl font-bold text-emerald-400 mb-4"><i class="fas fa-check-circle mr-2"></i>NutriScan System</h3>
+                    <ul class="space-y-4 text-lg">
+                        <li><i class="fas fa-angle-right text-emerald-500 mr-2"></i>Integrates Google Gemini's Vision capabilities seamlessly.</li>
+                        <li><i class="fas fa-angle-right text-emerald-500 mr-2"></i><strong>Persistent Dashboard:</strong> Locks data into a daily progress loop.</li>
+                        <li><i class="fas fa-angle-right text-emerald-500 mr-2"></i>Transforms raw AI output into a structured health ecosystem.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Background and Motivation</h2>
+            <div class="glass-card p-8 space-y-8 text-xl">
+                <div class="flex items-start">
+                    <i class="fas fa-hamburger text-4xl text-orange-400 mr-6 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-2xl text-white mb-2">The Health Crisis</h3>
+                        <p class="text-slate-300">Maintaining a balanced diet is a challenge due to the prevalence of processed foods and busy lifestyles.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-user-clock text-4xl text-red-400 mr-6 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-2xl text-white mb-2">The Friction of Existing Apps</h3>
+                        <p class="text-slate-300">Traditional calorie tracking apps often require tedious manual entry, leading to low user retention. Over 90% of users experience "logging fatigue".</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-rocket text-4xl text-emerald-400 mr-6 mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-2xl text-white mb-2">Our Motivation</h3>
+                        <p class="text-slate-300">To eliminate the friction between eating a meal and logging it by utilizing a "1-Click" AI scanning approach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Problem Statement</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+                <div class="glass-card p-8 flex flex-col items-center text-center">
+                    <div class="w-24 h-24 rounded-full bg-red-500/20 flex items-center justify-center mb-6">
+                        <i class="fas fa-keyboard text-4xl text-red-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Manual Entry Limitations</h3>
+                    <p class="text-lg text-slate-300">Existing nutrition apps are often complex, requiring users to manually search for and log every food item. This causes massive user drop-off.</p>
+                </div>
+                <div class="glass-card p-8 flex flex-col items-center text-center border-emerald-500/50 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-emerald-500/5"></div>
+                    <div class="w-24 h-24 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6 relative z-10">
+                        <i class="fas fa-camera-retro text-4xl text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 relative z-10">The Need for Automation</h3>
+                    <p class="text-lg text-slate-300 relative z-10">There is a need for a seamless, AI-powered solution that can identify food from images and provide accurate nutritional data without manual input.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Relevant Work / Literature Review</h2>
+            <div class="glass-card overflow-hidden">
+                <table>
+                    <thead class="bg-slate-800/50">
+                        <tr>
+                            <th class="w-16">Ref.</th>
+                            <th class="w-1/4">Title</th>
+                            <th class="w-1/3">Summary</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-lg">
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="font-mono text-slate-400">[1]</td>
+                            <td class="font-semibold text-white">MyFitnessPal / FatSecret</td>
+                            <td class="text-slate-300">Platforms with extensive databases for manual tracking.</td>
+                            <td class="text-red-300">They lack the seamless "Image-to-Macro" conversion. High friction.</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="font-mono text-slate-400">[2]</td>
+                            <td class="font-semibold text-white">Raw LLMs (Gemini/ChatGPT)</td>
+                            <td class="text-slate-300">Predictive AI analysis using computer vision capabilities.</td>
+                            <td class="text-yellow-300">Fails to act as a tracking dashboard; lacks persistent goal UI.</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition bg-emerald-900/20">
+                            <td class="font-mono text-emerald-400 font-bold">[3]</td>
+                            <td class="font-bold text-emerald-400">NutriScan (Our Proposal)</td>
+                            <td class="text-white">1-Click AI image scanning integrated into a dedicated tracking UI.</td>
+                            <td class="text-emerald-300 font-semibold">Bridges the gap: High AI accuracy + Zero manual friction.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Aim and Objectives</h2>
+            
+            <div class="glass-card p-6 mb-8 border-l-4 border-l-emerald-500 bg-emerald-900/10">
+                <h3 class="text-2xl font-bold text-emerald-400 mb-2">Project Aim:</h3>
+                <p class="text-xl">To develop an AI-first, low-friction application that completely automates macronutrient assessment and visualizes long-term dietary health.</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-6">
+                <div class="glass-card p-6 flex flex-col items-center text-center">
+                    <i class="fas fa-mobile-alt text-4xl text-emerald-300 mb-4"></i>
+                    <p class="text-lg">To develop a mobile-first web application for automated food recognition.</p>
+                </div>
+                <div class="glass-card p-6 flex flex-col items-center text-center">
+                    <i class="fas fa-chart-pie text-4xl text-emerald-300 mb-4"></i>
+                    <p class="text-lg">To provide real-time estimates of calories, proteins, carbohydrates, and fats.</p>
+                </div>
+                <div class="glass-card p-6 flex flex-col items-center text-center">
+                    <i class="fas fa-paint-brush text-4xl text-emerald-300 mb-4"></i>
+                    <p class="text-lg">To implement a minimalist and intuitive UI/UX for better user engagement.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Methodology (System Architecture)</h2>
+            <p class="text-xl mb-6">The NutriScan system follows a serverless architecture to ensure speed and cost-effectiveness.</p>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div class="glass-card p-6 flex items-center">
+                    <i class="fas fa-layer-group text-4xl text-blue-400 w-16"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Frontend UI (React & Tailwind)</h3>
+                        <p class="text-slate-300">Provides a clean, responsive user interface utilizing a minimalist design.</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 flex items-center">
+                    <i class="fas fa-brain text-4xl text-purple-400 w-16"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">AI Brain (Gemini Vision API)</h3>
+                        <p class="text-slate-300">Analyzes images and extracts precise nutritional data instantly.</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 flex items-center">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-emerald-400 w-16"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Hosting (Vercel / Netlify)</h3>
+                        <p class="text-slate-300">Ensures the application is live, extremely fast, and globally accessible.</p>
+                    </div>
+                </div>
+                <div class="glass-card p-6 flex items-center">
+                    <i class="fas fa-database text-4xl text-orange-400 w-16"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Data Storage (Local Storage)</h3>
+                        <p class="text-slate-300">Saves user logs locally on the device to maintain privacy and speed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center items-center text-center">
+            <h2 class="text-4xl font-bold gradient-text w-full text-left mb-12 border-b border-emerald-500/30 pb-4">Methodology (Data Flow)</h2>
+            
+            <div class="flex items-center justify-between w-full max-w-5xl">
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full glass-card flex items-center justify-center border-emerald-400 text-emerald-400 text-3xl mb-4"><i class="fas fa-camera"></i></div>
+                    <p class="font-bold">1. Capture</p>
+                    <p class="text-sm text-slate-400 w-32">User captures food image via UI.</p>
+                </div>
+                <i class="fas fa-arrow-right text-3xl text-slate-500 animate-pulse"></i>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full glass-card flex items-center justify-center border-purple-400 text-purple-400 text-3xl mb-4"><i class="fas fa-code"></i></div>
+                    <p class="font-bold">2. Encode</p>
+                    <p class="text-sm text-slate-400 w-32">Image converted to Base64.</p>
+                </div>
+                <i class="fas fa-arrow-right text-3xl text-slate-500 animate-pulse"></i>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full glass-card flex items-center justify-center border-blue-400 text-blue-400 text-3xl mb-4"><i class="fas fa-robot"></i></div>
+                    <p class="font-bold">3. API Prompt</p>
+                    <p class="text-sm text-slate-400 w-32">Gemini API returns structured JSON.</p>
+                </div>
+                <i class="fas fa-arrow-right text-3xl text-slate-500 animate-pulse"></i>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-24 h-24 rounded-full glass-card flex items-center justify-center border-orange-400 text-orange-400 text-3xl mb-4"><i class="fas fa-chart-bar"></i></div>
+                    <p class="font-bold">4. Dashboard</p>
+                    <p class="text-sm text-slate-400 w-32">Frontend parses JSON to UI.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Methodology (Handling Edge Cases)</h2>
+            <div class="flex gap-8">
+                <div class="flex-1 space-y-6">
+                    <div class="glass-card p-6">
+                        <h3 class="text-xl font-bold text-red-400 mb-2">The 2D Depth Limitation:</h3>
+                        <p class="text-slate-300">Computer vision cannot inherently measure volume (depth/ml) from a standard 2D image without reference points.</p>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-l-emerald-400">
+                        <h3 class="text-xl font-bold text-emerald-400 mb-2">The "Human-in-the-Loop" Solution:</h3>
+                        <p class="text-slate-300 mb-2">1. AI identifies the liquid type (e.g., Orange Juice) and base macros per 100ml.</p>
+                        <p class="text-slate-300">2. The UI seamlessly prompts the user to select the container size to ensure 100% calculation accuracy.</p>
+                    </div>
+                </div>
+                
+                <div class="w-1/3 glass-card p-6 flex flex-col justify-center bg-slate-900 border-emerald-500/50 relative">
+                    <h4 class="text-center text-white font-bold mb-6">AI Detected: Orange Juice</h4>
+                    <p class="text-center text-slate-400 text-sm mb-4">Confirm Serving Size:</p>
+                    <div class="space-y-3">
+                        <button class="w-full py-3 glass-card hover:bg-emerald-600/30 transition text-white border-white/20">Small (200ml)</button>
+                        <button class="w-full py-3 glass-card bg-emerald-600/50 border-emerald-400 text-white font-bold transform scale-105 transition shadow-lg">Medium (300ml) <i class="fas fa-check ml-2"></i></button>
+                        <button class="w-full py-3 glass-card hover:bg-emerald-600/30 transition text-white border-white/20">Large (500ml)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Scope & Application</h2>
+            <div class="glass-card p-6 mb-8">
+                <p class="text-xl"><strong class="text-emerald-400">Scope:</strong> Focuses on standard local and international meals, acting entirely as a software platform without the need for external hardware sensors.</p>
+            </div>
+            
+            <h3 class="text-2xl font-bold mb-6 text-white">Real-World Applications:</h3>
+            <div class="grid grid-cols-3 gap-6">
+                <div class="glass-card p-8 text-center hover:-translate-y-2 transition duration-300">
+                    <i class="fas fa-heartbeat text-5xl text-red-400 mb-4"></i>
+                    <h4 class="font-bold text-xl mb-2">Personal Health</h4>
+                    <p class="text-slate-400">Simplifying calorie tracking for individuals managing weight or obesity.</p>
+                </div>
+                <div class="glass-card p-8 text-center hover:-translate-y-2 transition duration-300">
+                    <i class="fas fa-graduation-cap text-5xl text-blue-400 mb-4"></i>
+                    <h4 class="font-bold text-xl mb-2">Student Planning</h4>
+                    <p class="text-slate-400">Dietary planning for busy university students and young professionals.</p>
+                </div>
+                <div class="glass-card p-8 text-center hover:-translate-y-2 transition duration-300">
+                    <i class="fas fa-dumbbell text-5xl text-orange-400 mb-4"></i>
+                    <h4 class="font-bold text-xl mb-2">Fitness & Clinical</h4>
+                    <p class="text-slate-400">Tracking strict macros for athletes or diabetic carb-counting.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Expected Outcome</h2>
+            <div class="flex gap-8">
+                <div class="flex-1 space-y-6">
+                    <p class="glass-card p-5 text-lg border-l-4 border-l-emerald-500"><strong class="text-emerald-400">1.</strong> A fully functional prototype demonstrating that AI can significantly reduce friction in health monitoring.</p>
+                    <p class="glass-card p-5 text-lg border-l-4 border-l-emerald-500"><strong class="text-emerald-400">2.</strong> Instantaneous translation of images into highly accurate daily calorie and macro logs.</p>
+                    <p class="glass-card p-5 text-lg border-l-4 border-l-blue-500"><strong class="text-blue-400">Future:</strong> Addition of barcode scanning and personalized AI diet recommendations based on historical data.</p>
+                </div>
+                
+                <div class="w-5/12 glass-card p-6 bg-slate-900 border-white/20">
+                    <h4 class="font-bold text-white mb-4">Daily Goal (Dashboard Mockup)</h4>
+                    <div class="flex justify-center mb-6">
+                        <div class="relative w-32 h-32 rounded-full border-8 border-slate-700 flex items-center justify-center">
+                            <div class="absolute inset-0 rounded-full border-8 border-emerald-400 border-r-transparent border-b-transparent transform -rotate-45"></div>
+                            <div class="text-center">
+                                <span class="block text-2xl font-bold text-white">1450</span>
+                                <span class="block text-xs text-slate-400">/ 2000 kcal</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-white">Protein</span><span class="text-emerald-400">65g / 100g</span></div>
+                            <div class="h-2 w-full bg-slate-700 rounded-full"><div class="h-2 bg-emerald-400 rounded-full w-[65%]"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-white">Carbs</span><span class="text-blue-400">120g / 250g</span></div>
+                            <div class="h-2 w-full bg-slate-700 rounded-full"><div class="h-2 bg-blue-400 rounded-full w-[48%]"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide justify-center">
+            <h2 class="text-4xl font-bold gradient-text mb-8 border-b border-emerald-500/30 pb-4">Timeline</h2>
+            <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 before:to-transparent">
+                
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-emerald-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"><i class="fas fa-check"></i></div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-4 rounded border border-emerald-500 shadow">
+                        <div class="flex items-center justify-between space-x-2 mb-1">
+                            <div class="font-bold text-white">Phase 1 (Completed)</div>
+                        </div>
+                        <div class="text-slate-300">Project Conception, Background Research, and Literature Review.</div>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-blue-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"><i class="fas fa-spinner fa-spin"></i></div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-4 rounded border border-blue-500 shadow">
+                        <div class="flex items-center justify-between space-x-2 mb-1">
+                            <div class="font-bold text-white">Phase 2 (In Progress)</div>
+                        </div>
+                        <div class="text-slate-300">Scope definition, UI/UX conceptualization, and Architecture Design.</div>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-700 text-slate-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"><i class="fas fa-code"></i></div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-4 rounded">
+                        <div class="flex items-center justify-between space-x-2 mb-1">
+                            <div class="font-bold text-slate-400">Phase 3 (Upcoming)</div>
+                        </div>
+                        <div class="text-slate-500">Gemini Vision API integration, prompt engineering, and backend logic.</div>
+                    </div>
+                </div>
+
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-slate-700 text-slate-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10"><i class="fas fa-flag-checkered"></i></div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-4 rounded">
+                        <div class="flex items-center justify-between space-x-2 mb-1">
+                            <div class="font-bold text-slate-400">Phase 4 (Final)</div>
+                        </div>
+                        <div class="text-slate-500">System testing, performance optimization, and final presentation.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="slide justify-center items-center text-center">
+            <h1 class="text-7xl font-bold gradient-text mb-6">THANK YOU</h1>
+            <p class="text-2xl text-emerald-200 mb-12 animate-bounce">Any Questions?</p>
+            
+            <div class="glass-card p-8 w-full max-w-4xl text-left">
+                <h3 class="text-2xl font-bold border-b border-emerald-500/30 pb-2 mb-4"><i class="fas fa-link mr-2"></i>References</h3>
+                <ul class="space-y-4 text-lg text-slate-300 font-mono">
+                    <li>[1] Google Cloud. (2024). Gemini Vision API Documentation.</li>
+                    <li>[2] Nielsen, J. (1994). Enhancing the explanatory power of usability heuristics.</li>
+                    <li>[3] World Health Organization. (2023). Global report on diet and physical activity.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="fixed bottom-0 w-full h-20 bg-slate-950/80 backdrop-blur-md border-t border-white/10 flex justify-between items-center px-8 z-50">
+        <button id="prevBtn" onclick="changeSlide(-1)" class="px-6 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold transition disabled:opacity-50 disabled:cursor-not-allowed border border-white/10">
+            <i class="fas fa-chevron-left mr-2"></i> Previous
+        </button>
+        
+        <div class="text-slate-300 font-mono tracking-widest text-sm flex items-center gap-4">
+            <span class="text-emerald-400 font-bold">NutriScan FYP-1</span>
+            <span class="w-1 h-1 bg-white/30 rounded-full"></span>
+            Slide <span id="current-slide-num" class="text-white font-bold text-lg mx-1">1</span> of 15
+        </div>
+        
+        <button id="nextBtn" onclick="changeSlide(1)" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-white font-bold transition shadow-[0_0_15px_rgba(52,211,153,0.3)] disabled:opacity-50 disabled:cursor-not-allowed">
+            Next <i class="fas fa-chevron-right ml-2"></i>
+        </button>
+    </div>
+
+    <script>
+        // AI Terminal Background Animation Logic
+        const terminal = document.getElementById('bg-terminal');
+        const aiLogs = [
+            "> INITIATING NEURAL NETWORK...",
+            "> CONNECTING TO GLOBAL SATELLITES...",
+            "> ACCESSING USMS DATABASES...",
+            "> COMPILING PROJECT ARCHITECTURE...",
+            "> SCANNING LOCAL ENVIRONMENT...",
+            "> CALIBRATING VISION MODEL v4.2...",
+            "> EXTRACTING MACRONUTRIENTS...",
+            "> OPTIMIZING DASHBOARD METRICS...",
+            "> BYPASSING MANUAL ENTRY...",
+            "> SECURING DATA TO LOCAL STORAGE...",
+            "> ALIGNING UI COMPONENTS...",
+            "> SYSTEM STATUS: NOMINAL"
+        ];
+        
+        let logIndex = 0;
+        setInterval(() => {
+            const newLog = document.createElement('div');
+            newLog.innerText = aiLogs[logIndex];
+            terminal.appendChild(newLog);
+            
+            if (terminal.childElementCount > 10) {
+                terminal.removeChild(terminal.firstChild);
+            }
+            
+            logIndex = (logIndex + 1) % aiLogs.length;
+        }, 1500);
+
+        // Slide Navigation Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideNumDisplay = document.getElementById('current-slide-num');
+
+        function updateNav() {
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            slideNumDisplay.innerText = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+            updateNav();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize
+        updateNav();
+    </script>
+</body>
+</html>
